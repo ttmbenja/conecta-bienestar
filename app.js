@@ -9,9 +9,23 @@
 
   const FIELD_ICONS = {
     descripcion: "info", quienes: "users", requisitos: "list-checks", cobertura: "layers",
-    pasos: "compass", canal: "map-pin", consultas: "headset", vigencia: "calendar",
+    pasos: "compass", canal: "map-pin", consultas: "headset", datos: "calendar",
+    nota: "shield", fuente: "file-text",
   };
   const TBD = `<span class="tbd">${icon("info")}Por completar con información oficial</span>`;
+  const badge = (estado) => `<span class="badge badge--${estado}">${icon(estado === "publicado" ? "check" : "info")}${esc(ESTADOS[estado])}</span>`;
+
+  function renderValue(key, v) {
+    if (v == null || (Array.isArray(v) && !v.length)) return TBD;
+    if (key === "datos") {
+      return `<div class="facts">${Object.entries(DATOS_LABELS).map(([k, l]) =>
+        `<div class="fact"><span>${esc(l)}</span><p>${v[k] ? esc(v[k]) : TBD}</p></div>`).join("")}</div>`;
+    }
+    if (key === "pasos" && Array.isArray(v)) return `<ol class="list list--steps">${v.map((x) => `<li>${esc(x)}</li>`).join("")}</ol>`;
+    if (Array.isArray(v)) return `<ul class="list">${v.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`;
+    return esc(v);
+  }
+  const flat = (b) => [b.nombre, b.resumen, CATEGORIAS[b.categoria], ...(b.cobertura || [])].join(" ");
 
   /* ---------- Catálogo ---------- */
   const grid = $("#benefitGrid");
@@ -23,6 +37,7 @@
       </span>
       <h3>${esc(b.nombre)}</h3>
       <p>${esc(b.resumen)}</p>
+      ${badge(b.estado)}
       <span class="card__foot">Ver ficha <span class="card__go">${icon("arrow-right")}</span></span>
     </button>`).join("");
 
@@ -42,7 +57,7 @@
     $$(".card", grid).forEach((card) => {
       const b = BENEFICIOS.find((x) => x.id === card.dataset.id);
       const okCat = currentCat === "todos" || b.categoria === currentCat;
-      const okQ = !q || norm(`${b.nombre} ${b.resumen} ${CATEGORIAS[b.categoria]}`).includes(q);
+      const okQ = !q || norm(flat(b)).includes(q);
       const show = okCat && okQ;
       card.classList.toggle("is-hidden", !show);
       if (show) { card.classList.add("in"); visible++; }
@@ -69,10 +84,13 @@
     $("#mIcon").innerHTML = icon(b.icono);
     $("#mCat").textContent = CATEGORIAS[b.categoria];
     $("#mTitle").textContent = b.nombre;
-    $("#mBody").innerHTML = CAMPOS_FICHA.map((f) => `
-      <div class="modal__row">
+    $("#mBadge").innerHTML = badge(b.estado);
+    $("#mBody").innerHTML = CAMPOS_FICHA
+      .filter((f) => f.key !== "nota" || b.nota)
+      .map((f) => `
+      <div class="modal__row${f.key === "datos" ? " modal__row--wide" : ""}${f.key === "fuente" ? " modal__row--source" : ""}">
         <dt>${icon(FIELD_ICONS[f.key])}<span>${esc(f.label)}</span><small>${esc(f.ayuda)}</small></dt>
-        <dd>${b[f.key] ? esc(b[f.key]) : TBD}</dd>
+        <dd>${renderValue(f.key, b[f.key])}</dd>
       </div>`).join("");
     $("#mAsk").dataset.id = b.id;
     modal.classList.remove("is-closing");
@@ -135,6 +153,9 @@
   };
   panel.addEventListener("pointerup", endDrag);
   panel.addEventListener("pointercancel", endDrag);
+
+  /* ---------- Condiciones generales ---------- */
+  $("#generalList").innerHTML = CONDICIONES_GENERALES.map((c) => `<li>${icon("check")}<span>${esc(c)}</span></li>`).join("");
 
   /* ---------- Novedades ---------- */
   $("#newsList").innerHTML = NOVEDADES.map((n) => `

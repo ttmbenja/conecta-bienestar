@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=2" />
 </head>
 <body>
   <!-- Iconos (estilo Lucide, SVG en línea) -->
@@ -44,6 +44,7 @@
       <symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
       <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
       <symbol id="i-qr" viewBox="0 0 24 24"><rect x="3" y="3" width="5" height="5" rx="1"/><rect x="16" y="3" width="5" height="5" rx="1"/><rect x="3" y="16" width="5" height="5" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3M21 21v.01M12 7v3a2 2 0 0 1-2 2H7M3 12h.01M12 3h.01M12 16v.01M16 12h1M21 12v.01M12 21v-1"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
       <symbol id="i-headset" viewBox="0 0 24 24"><path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M21 16v2a4 4 0 0 1-4 4h-5"/></symbol>
     </defs>
   </svg>
@@ -174,19 +175,28 @@
 
         <ol class="fields reveal-group">
           <li class="field reveal"><svg class="ic"><use href="#i-info"/></svg><div><strong>Descripción</strong><span>En qué consiste el beneficio</span></div></li>
+          <li class="field reveal"><svg class="ic"><use href="#i-layers"/></svg><div><strong>Cobertura</strong><span>Qué incluye</span></div></li>
           <li class="field reveal"><svg class="ic"><use href="#i-users"/></svg><div><strong>¿Quiénes pueden acceder?</strong><span>Público beneficiario</span></div></li>
           <li class="field reveal"><svg class="ic"><use href="#i-list-checks"/></svg><div><strong>Requisitos</strong><span>Condiciones para utilizarlo</span></div></li>
-          <li class="field reveal"><svg class="ic"><use href="#i-layers"/></svg><div><strong>Cobertura</strong><span>Qué incluye</span></div></li>
+          <li class="field reveal"><svg class="ic"><use href="#i-calendar"/></svg><div><strong>Vigencia y condiciones</strong><span>Desde cuándo, duración, horario y costo</span></div></li>
           <li class="field reveal"><svg class="ic"><use href="#i-compass"/></svg><div><strong>¿Cómo acceder?</strong><span>Pasos para solicitarlo</span></div></li>
           <li class="field reveal"><svg class="ic"><use href="#i-map-pin"/></svg><div><strong>¿Dónde solicitarlo?</strong><span>Canal de acceso</span></div></li>
           <li class="field reveal"><svg class="ic"><use href="#i-headset"/></svg><div><strong>Consultas</strong><span>Contacto de orientación</span></div></li>
-          <li class="field reveal"><svg class="ic"><use href="#i-calendar"/></svg><div><strong>Vigencia</strong><span>Fechas y condiciones</span></div></li>
         </ol>
 
-        <aside class="notice reveal">
-          <svg class="ic"><use href="#i-info"/></svg>
-          <p><strong>Sobre la información de este portal.</strong> Los siete beneficios provienen del caso académico. Las coberturas, montos, proveedores, requisitos y plazos aparecen como <span class="tbd tbd--inline">Por completar</span> porque deben validarse con la información oficial del área de Recursos Humanos.</p>
-        </aside>
+        <div class="general reveal">
+          <div class="general__col">
+            <h3>Condiciones generales de acceso</h3>
+            <ul class="general__list" id="generalList"></ul>
+          </div>
+          <div class="general__col general__col--legend">
+            <h3>Origen de la información</h3>
+            <p><span class="badge badge--publicado"><svg class="ic"><use href="#i-check"/></svg>Información publicada por Falabella</span></p>
+            <p class="general__txt">Beneficios respaldados por antecedentes públicos de Falabella: Reportes de Sostenibilidad 2024 y 2025 y Portal F.</p>
+            <p><span class="badge badge--propuesta"><svg class="ic"><use href="#i-info"/></svg>Propuesta del caso académico</span></p>
+            <p class="general__txt">Condiciones diseñadas para el caso académico cuando no existe información oficial publicada.</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -296,7 +306,7 @@
         <span class="brand__mark" aria-hidden="true"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="9"/><path d="M16 23.5l-6.2-6.1a3.9 3.9 0 0 1 5.5-5.5l.7.7.7-.7a3.9 3.9 0 0 1 5.5 5.5z"/></svg></span>
         <span class="brand__text"><strong>Conecta Bienestar</strong><small>Tus beneficios, más cerca de ti</small></span>
       </div>
-      <p>Portal demostrativo elaborado con fines académicos para la Evaluación de Bienestar, Unidad III. No es un sitio oficial de Falabella y no contiene información oficial de beneficios.</p>
+      <p>Portal demostrativo elaborado con fines académicos para la Evaluación de Bienestar, Unidad III. No es un sitio oficial de Falabella: la información se basa en antecedentes públicos de la empresa (Reportes de Sostenibilidad 2024–2025 y Portal F) y en propuestas del caso académico, y no reemplaza la información oficial de Recursos Humanos.</p>
     </div>
   </footer>
 
@@ -309,6 +319,7 @@
         <div>
           <span class="eyebrow" id="mCat"></span>
           <h2 id="mTitle"></h2>
+          <div id="mBadge" class="modal__badge"></div>
         </div>
         <button class="icon-btn" id="mClose" aria-label="Cerrar ficha"><svg class="ic"><use href="#i-x"/></svg></button>
       </header>
@@ -321,7 +332,7 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="data.js"></script>
-  <script src="app.js"></script>
+  <script src="data.js?v=2"></script>
+  <script src="app.js?v=2"></script>
 </body>
 </html>
